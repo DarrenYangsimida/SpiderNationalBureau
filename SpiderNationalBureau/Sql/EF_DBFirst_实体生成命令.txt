@@ -1,0 +1,1 @@
+Scaffold-DbContext -Connection "server=cnckgitsa02;port=3308;user id=cjluser02;password=Deloitte*2;database=web_spider" -Provider "Pomelo.EntityFrameworkCore.MySql" -OutputDir "DataModel_MySql" -Context "SpiderDbContext" -Force

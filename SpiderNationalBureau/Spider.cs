@@ -410,10 +410,10 @@ namespace SpiderNationalBureau
         /// <param name="e"></param>
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            dataGridView2.Rows.Clear();
-            dataGridView3.Rows.Clear();
-            dataGridView4.Rows.Clear();
-            dataGridView5.Rows.Clear();
+            dataGridView2.DataSource = null;
+            dataGridView3.DataSource = null;
+            dataGridView4.DataSource = null;
+            dataGridView5.DataSource = null;
             foreach (DataGridViewRow item in dataGridView1.Rows)
             {
                 if (item.Selected)
@@ -442,9 +442,9 @@ namespace SpiderNationalBureau
         /// <param name="e"></param>
         private void dataGridView2_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            dataGridView3.Rows.Clear();
-            dataGridView4.Rows.Clear();
-            dataGridView5.Rows.Clear();
+            dataGridView3.DataSource = null;
+            dataGridView4.DataSource = null;
+            dataGridView5.DataSource = null;
             foreach (DataGridViewRow item in dataGridView2.Rows)
             {
                 if (item.Selected)
@@ -473,8 +473,8 @@ namespace SpiderNationalBureau
         /// <param name="e"></param>
         private void dataGridView3_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            dataGridView4.Rows.Clear();
-            dataGridView5.Rows.Clear();
+            dataGridView4.DataSource = null;
+            dataGridView5.DataSource = null;
             foreach (DataGridViewRow item in dataGridView3.Rows)
             {
                 if (item.Selected)
@@ -503,7 +503,7 @@ namespace SpiderNationalBureau
         /// <param name="e"></param>
         private void dataGridView4_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            dataGridView5.Rows.Clear();
+            dataGridView5.DataSource = null;
             foreach (DataGridViewRow item in dataGridView4.Rows)
             {
                 if (item.Selected)

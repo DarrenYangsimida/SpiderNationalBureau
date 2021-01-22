@@ -15,6 +15,10 @@ namespace SpiderNationalBureau.Repository
             _DBContext = DBContext;
         }
 
+        /// <summary>
+        /// 获取省份数据
+        /// </summary>
+        /// <returns></returns>
         public List<Province> GetProvinces()
         {
             try
@@ -31,6 +35,28 @@ namespace SpiderNationalBureau.Repository
             }
         }
 
+        /// <summary>
+        /// 获取身份数据总条数
+        /// </summary>
+        /// <returns></returns>
+        public int GetProvinceCount()
+        {
+            try
+            {
+                return _DBContext.Province.Where(d => d.DeletedFlag.Equals(false)).Count();
+            }
+            catch (Exception ex)
+            {
+                _ = ex.Message;
+                return 0;
+            }
+        }
+
+        /// <summary>
+        /// 获取城市数据
+        /// </summary>
+        /// <param name="ProvinceCode"></param>
+        /// <returns></returns>
         public List<City> GetCities(string ProvinceCode)
         {
             try
@@ -47,6 +73,28 @@ namespace SpiderNationalBureau.Repository
             }
         }
 
+        /// <summary>
+        /// 获取城市数据总条数
+        /// </summary>
+        /// <returns></returns>
+        public int GetCityCount()
+        {
+            try
+            {
+                return _DBContext.City.Where(d => d.DeletedFlag.Equals(false)).Count();
+            }
+            catch (Exception ex)
+            {
+                _ = ex.Message;
+                return 0;
+            }
+        }
+
+        /// <summary>
+        /// 获取区域数据
+        /// </summary>
+        /// <param name="CityCode"></param>
+        /// <returns></returns>
         public List<District> GetDistricts(string CityCode)
         {
             try
@@ -63,6 +111,28 @@ namespace SpiderNationalBureau.Repository
             }
         }
 
+        /// <summary>
+        /// 获取区域数据总条数
+        /// </summary>
+        /// <returns></returns>
+        public int GetDistrictCount()
+        {
+            try
+            {
+                return _DBContext.District.Where(d => d.DeletedFlag.Equals(false)).Count();
+            }
+            catch (Exception ex)
+            {
+                _ = ex.Message;
+                return 0;
+            }
+        }
+
+        /// <summary>
+        /// 获取街道/镇数据
+        /// </summary>
+        /// <param name="DistrictCode"></param>
+        /// <returns></returns>
         public List<Street> GetStreets(string DistrictCode)
         {
             try
@@ -79,6 +149,28 @@ namespace SpiderNationalBureau.Repository
             }
         }
 
+        /// <summary>
+        /// 获取街道/镇数据总条数
+        /// </summary>
+        /// <returns></returns>
+        public int GetStreetCount()
+        {
+            try
+            {
+                return _DBContext.Street.Where(d => d.DeletedFlag.Equals(false)).Count();
+            }
+            catch (Exception ex)
+            {
+                _ = ex.Message;
+                return 0;
+            }
+        }
+
+        /// <summary>
+        /// 获取社区数据
+        /// </summary>
+        /// <param name="StreetCode"></param>
+        /// <returns></returns>
         public List<Community> GetCommunities(string StreetCode)
         {
             try
@@ -95,16 +187,39 @@ namespace SpiderNationalBureau.Repository
             }
         }
 
+        /// <summary>
+        /// 获取社区数据总条数
+        /// </summary>
+        /// <returns></returns>
+        public int GetCommunityCount()
+        {
+            try
+            {
+                return _DBContext.Community.Where(d => d.DeletedFlag.Equals(false)).Count();
+            }
+            catch (Exception ex)
+            {
+                _ = ex.Message;
+                return 0;
+            }
+        }
+
+        /// <summary>
+        /// 写入省份数据
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public bool InsertProvinceData(Province data)
         {
             try
             {
-                var exsitCount = _DBContext.Province.Where(d => d.ProvinceCode.Equals(data.ProvinceCode) && d.DeletedFlag.Equals(false)).Count();
+                var exsitCount = _DBContext.Province.Where(d => d.ProvinceCode.Equals(data.ProvinceCode)
+                                                             && d.DeletedFlag.Equals(false)).Count();
                 if (exsitCount == 0)
                 {
                     data.DeletedFlag = false;
                     data.CreatedTime = DateTime.Now;
-                    data.ModifiedTime = DateTime.Now;
+                    data.ModifiedTime = (DateTime?)DateTime.Now;
                     _DBContext.Province.Add(data);
                     _DBContext.SaveChanges();
                 }
@@ -117,6 +232,11 @@ namespace SpiderNationalBureau.Repository
             }
         }
 
+        /// <summary>
+        /// 写入城市数据
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public bool InsertCityData(City data)
         {
             try
@@ -128,7 +248,7 @@ namespace SpiderNationalBureau.Repository
                 {
                     data.DeletedFlag = false;
                     data.CreatedTime = DateTime.Now;
-                    data.ModifiedTime = DateTime.Now;
+                    data.ModifiedTime = (DateTime?)DateTime.Now;
                     _DBContext.City.Add(data);
                     _DBContext.SaveChanges();
                 }
@@ -141,6 +261,11 @@ namespace SpiderNationalBureau.Repository
             }
         }
 
+        /// <summary>
+        /// 写入区域数据
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public bool InsertDistrictData(District data)
         {
             try
@@ -152,7 +277,7 @@ namespace SpiderNationalBureau.Repository
                 {
                     data.DeletedFlag = false;
                     data.CreatedTime = DateTime.Now;
-                    data.ModifiedTime = DateTime.Now;
+                    data.ModifiedTime = (DateTime?)DateTime.Now;
                     _DBContext.District.Add(data);
                     _DBContext.SaveChanges();
                 }
@@ -165,6 +290,11 @@ namespace SpiderNationalBureau.Repository
             }
         }
 
+        /// <summary>
+        /// 写入街道/镇数据
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public bool InsertStreetData(Street data)
         {
             try
@@ -176,7 +306,7 @@ namespace SpiderNationalBureau.Repository
                 {
                     data.DeletedFlag = false;
                     data.CreatedTime = DateTime.Now;
-                    data.ModifiedTime = DateTime.Now;
+                    data.ModifiedTime = (DateTime?)DateTime.Now;
                     _DBContext.Street.Add(data);
                     _DBContext.SaveChanges();
                 }
@@ -189,6 +319,11 @@ namespace SpiderNationalBureau.Repository
             }
         }
 
+        /// <summary>
+        /// 写入社区数据
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public bool InsertCommunityData(Community data)
         {
             try
@@ -200,7 +335,7 @@ namespace SpiderNationalBureau.Repository
                 {
                     data.DeletedFlag = false;
                     data.CreatedTime = DateTime.Now;
-                    data.ModifiedTime = DateTime.Now;
+                    data.ModifiedTime = (DateTime?)DateTime.Now;
                     _DBContext.Community.Add(data);
                     _DBContext.SaveChanges();
                 }

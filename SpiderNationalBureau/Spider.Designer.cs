@@ -52,9 +52,18 @@ namespace SpiderNationalBureau
             this.CommunityCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label6 = new System.Windows.Forms.Label();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
@@ -64,7 +73,7 @@ namespace SpiderNationalBureau
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 39);
+            this.button1.Location = new System.Drawing.Point(42, 38);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(150, 35);
             this.button1.TabIndex = 0;
@@ -74,7 +83,7 @@ namespace SpiderNationalBureau
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(527, 38);
+            this.button2.Location = new System.Drawing.Point(42, 101);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(150, 35);
             this.button2.TabIndex = 1;
@@ -285,50 +294,137 @@ namespace SpiderNationalBureau
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(11, 105);
+            this.label6.Location = new System.Drawing.Point(252, 43);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(106, 24);
             this.label6.TabIndex = 12;
             this.label6.Text = "抓取状态......";
             // 
-            // button3
+            // label7
             // 
-            this.button3.Location = new System.Drawing.Point(178, 39);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(70, 35);
-            this.button3.TabIndex = 13;
-            this.button3.Text = "暂停";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(252, 106);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(118, 24);
+            this.label7.TabIndex = 13;
+            this.label7.Text = "总数据条数：";
             // 
-            // button4
+            // label8
             // 
-            this.button4.Location = new System.Drawing.Point(256, 39);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(70, 35);
-            this.button4.TabIndex = 14;
-            this.button4.Text = "停止";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(273, 201);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(117, 24);
+            this.label8.TabIndex = 14;
+            this.label8.Text = "Data Count: ";
             // 
-            // button5
+            // label9
             // 
-            this.button5.Location = new System.Drawing.Point(334, 38);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(70, 35);
-            this.button5.TabIndex = 15;
-            this.button5.Text = "继续";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(964, 12);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(117, 24);
+            this.label9.TabIndex = 15;
+            this.label9.Text = "Data Count: ";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(964, 201);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(117, 24);
+            this.label10.TabIndex = 16;
+            this.label10.Text = "Data Count: ";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(273, 402);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(117, 24);
+            this.label11.TabIndex = 17;
+            this.label11.Text = "Data Count: ";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(964, 402);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(117, 24);
+            this.label12.TabIndex = 18;
+            this.label12.Text = "Data Count: ";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(376, 106);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(21, 24);
+            this.label13.TabIndex = 19;
+            this.label13.Text = "0";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(1087, 12);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(21, 24);
+            this.label14.TabIndex = 20;
+            this.label14.Text = "0";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(396, 201);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(21, 24);
+            this.label15.TabIndex = 21;
+            this.label15.Text = "0";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(1087, 201);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(21, 24);
+            this.label16.TabIndex = 22;
+            this.label16.Text = "0";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(396, 402);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(21, 24);
+            this.label17.TabIndex = 23;
+            this.label17.Text = "0";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(1087, 402);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(21, 24);
+            this.label18.TabIndex = 24;
+            this.label18.Text = "0";
             // 
             // Spider
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1387, 599);
-            this.Controls.Add(this.button5);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.label18);
+            this.Controls.Add(this.label17);
+            this.Controls.Add(this.label16);
+            this.Controls.Add(this.label15);
+            this.Controls.Add(this.label14);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.dataGridView5);
             this.Controls.Add(this.dataGridView4);
@@ -390,21 +486,18 @@ namespace SpiderNationalBureau
         private System.Windows.Forms.DataGridViewTextBoxColumn CityName;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
-
-        /// <summary>
-        /// 暂停
-        /// </summary>
-        private System.Windows.Forms.Button button3;
-
-        /// <summary>
-        /// 停止
-        /// </summary>
-        private System.Windows.Forms.Button button4;
-
-        /// <summary>
-        /// 继续
-        /// </summary>
-        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label18;
     }
 }
 

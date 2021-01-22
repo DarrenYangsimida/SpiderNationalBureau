@@ -27,10 +27,7 @@ namespace SpiderNationalBureau
         public Spider(ServiceProvider serviceProvider)
         {
             InitializeComponent();
-
-            button3.Enabled = false;
-            button4.Enabled = false;
-            button5.Enabled = false;
+            CheckForIllegalCrossThreadCalls = false;
 
             dataGridView1.AutoGenerateColumns = false;
             dataGridView2.AutoGenerateColumns = false;
@@ -57,82 +54,23 @@ namespace SpiderNationalBureau
         {
             button1.Enabled = false;
             button2.Enabled = false;
-            button3.Enabled = true;
-            button4.Enabled = true;
-            button5.Enabled = false;
             label6.Text = "正在抓取数据，请等待操作完成......";
-            var task = new Task(async () =>
+            var task = Task.Run(() =>
             {
-                while (true)
+                GetProvinceData();
+            });
+            _ = Task.Run(() =>
+            {
+                //等待执行完成
+                Task.WaitAll(task);
+                if (task.IsCompleted)
                 {
-                    if (token.IsCancellationRequested)
-                    {
-                        return;
-                    }
-                    // 初始化为true时执行WaitOne不阻塞
-                    resetEvent.WaitOne();
-                    // Business Logic
-                    GetProvinceData();
-                    // 模拟等待100ms
-                    await Task.Delay(100);
+                    MessageBox.Show("数据抓取完成，请点击显示\"抓取数据\"查看");
+                    button1.Enabled = true;
+                    button2.Enabled = true;
+                    label6.Text = "抓取状态......";
                 }
-            }, token);
-            task.Start();
-            //等待执行完成
-            Task.WaitAll(task);
-            if (task.IsCompleted)
-            {
-                MessageBox.Show("数据抓取成功，请点击显示\"抓取数据\"查看");
-                button1.Enabled = true;
-                button2.Enabled = true;
-                label6.Text = "抓取状态......";
-            }
-        }
-
-        /// <summary>
-        /// 暂停
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void button3_Click(object sender, EventArgs e)
-        {
-            resetEvent.Reset();
-            label6.Text = "暂停中......";
-            button2.Enabled = true;
-            button3.Enabled = false;
-            button4.Enabled = true;
-            button5.Enabled = true;
-        }
-
-        /// <summary>
-        /// 停止
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void button4_Click(object sender, EventArgs e)
-        {
-            tokenSource.Cancel();
-            label6.Text = "抓取状态......";
-            button1.Enabled = true;
-            button2.Enabled = true;
-            button3.Enabled = false;
-            button4.Enabled = false;
-            button5.Enabled = false;
-        }
-
-        /// <summary>
-        /// 继续
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void button5_Click(object sender, EventArgs e)
-        {
-            resetEvent.Set();
-            label6.Text = "正在抓取数据，请等待操作完成......";
-            button2.Enabled = false;
-            button3.Enabled = true;
-            button4.Enabled = true;
-            button5.Enabled = false;
+            });
         }
 
         /// <summary>
@@ -202,20 +140,23 @@ namespace SpiderNationalBureau
                     {
                         foreach (var item in htmlNodes)
                         {
-                            var aNodes = item.SelectNodes("//a");
+                            var aNodes = item.ChildNodes;
                             if (aNodes != null && aNodes.Count >= 2)
                             {
-                                var districtUrl = aNodes[0].Attributes["href"].Value.ToString();
-                                var cityData = new City
+                                var districtUrl = aNodes[0].FirstChild.Attributes["href"].Value;
+                                if (!string.IsNullOrWhiteSpace(districtUrl))
                                 {
-                                    CityCode = long.Parse(CommonBLL.GetCodeNum(aNodes[0].InnerText)),
-                                    CityName = CommonBLL.GetChineseWord(aNodes[1].InnerText),
-                                    ProvinceCode = provinceCode
-                                };
-                                var result = repository.InsertCityData(cityData);
-                                if (result)
-                                {
-                                    GetDistrictData(cityUrl.GetUrlPrefix(districtUrl), cityData.CityCode);
+                                    var cityData = new City
+                                    {
+                                        CityCode = long.Parse(CommonBLL.GetCodeNum(aNodes[0].FirstChild.InnerText)),
+                                        CityName = CommonBLL.GetChineseWord(aNodes[1].FirstChild.InnerText),
+                                        ProvinceCode = provinceCode
+                                    };
+                                    var result = repository.InsertCityData(cityData);
+                                    if (result)
+                                    {
+                                        GetDistrictData(cityUrl.GetUrlPrefix(districtUrl), cityData.CityCode);
+                                    }
                                 }
                             }
                         }
@@ -250,7 +191,7 @@ namespace SpiderNationalBureau
                             var aNodes = item.ChildNodes;
                             if (aNodes != null && aNodes.Count >= 2)
                             {
-                                if (aNodes[0].ChildNodes == null)
+                                if (aNodes[0].ChildNodes == null || !aNodes[0].FirstChild.Name.Equals("a"))
                                 {
                                     var districtData = new District
                                     {
@@ -262,17 +203,20 @@ namespace SpiderNationalBureau
                                 }
                                 else
                                 {
-                                    var streetUrl = aNodes[0].FirstChild.Attributes["href"].Value.ToString();
-                                    var districtData = new District
+                                    var streetUrl = aNodes[0].FirstChild.Attributes["href"].Value;
+                                    if (!string.IsNullOrWhiteSpace(streetUrl))
                                     {
-                                        DistrictCode = long.Parse(CommonBLL.GetCodeNum(aNodes[0].FirstChild.InnerText)),
-                                        DistrictName = CommonBLL.GetChineseWord(aNodes[1].FirstChild.InnerText),
-                                        CityCode = cityCode
-                                    };
-                                    var result = repository.InsertDistrictData(districtData);
-                                    if (result)
-                                    {
-                                        GetStreetData(districtUrl.GetUrlPrefix(streetUrl), districtData.DistrictCode);
+                                        var districtData = new District
+                                        {
+                                            DistrictCode = long.Parse(CommonBLL.GetCodeNum(aNodes[0].FirstChild.InnerText)),
+                                            DistrictName = CommonBLL.GetChineseWord(aNodes[1].FirstChild.InnerText),
+                                            CityCode = cityCode
+                                        };
+                                        var result = repository.InsertDistrictData(districtData);
+                                        if (result)
+                                        {
+                                            GetStreetData(districtUrl.GetUrlPrefix(streetUrl), districtData.DistrictCode);
+                                        }
                                     }
                                 }
                             }
@@ -308,7 +252,7 @@ namespace SpiderNationalBureau
                             var aNodes = item.ChildNodes;
                             if (aNodes != null && aNodes.Count >= 2)
                             {
-                                if (aNodes[0].ChildNodes == null)
+                                if (aNodes[0].ChildNodes == null || !aNodes[0].FirstChild.Name.Equals("a"))
                                 {
                                     var streetData = new Street
                                     {
@@ -320,17 +264,20 @@ namespace SpiderNationalBureau
                                 }
                                 else
                                 {
-                                    var communityUrl = aNodes[0].FirstChild.Attributes["href"].Value.ToString();
-                                    var streetData = new Street
+                                    var communityUrl = aNodes[0].FirstChild.Attributes["href"].Value;
+                                    if (!string.IsNullOrWhiteSpace(communityUrl))
                                     {
-                                        StreetCode = long.Parse(CommonBLL.GetCodeNum(aNodes[0].FirstChild.InnerText)),
-                                        StreetName = CommonBLL.GetChineseWord(aNodes[1].FirstChild.InnerText),
-                                        DistrictCode = districtCode
-                                    };
-                                    var result = repository.InsertStreetData(streetData);
-                                    if (result)
-                                    {
-                                        GetCommunityData(streetUrl.GetUrlPrefix(communityUrl), streetData.StreetCode);
+                                        var streetData = new Street
+                                        {
+                                            StreetCode = long.Parse(CommonBLL.GetCodeNum(aNodes[0].FirstChild.InnerText)),
+                                            StreetName = CommonBLL.GetChineseWord(aNodes[1].FirstChild.InnerText),
+                                            DistrictCode = districtCode
+                                        };
+                                        var result = repository.InsertStreetData(streetData);
+                                        if (result)
+                                        {
+                                            GetCommunityData(streetUrl.GetUrlPrefix(communityUrl), streetData.StreetCode);
+                                        }
                                     }
                                 }
                             }
@@ -395,6 +342,19 @@ namespace SpiderNationalBureau
         /// <param name="e"></param>
         private void button2_Click(object sender, EventArgs e)
         {
+            int provinceCount = repository.GetProvinceCount();
+            int cityCount = repository.GetCityCount();
+            int districtCount = repository.GetDistrictCount();
+            int streetCount = repository.GetStreetCount();
+            int communityCount = repository.GetCommunityCount();
+            int allCount = provinceCount + cityCount + districtCount + streetCount + communityCount;
+            label13.Text = allCount.ToString();
+            label14.Text = provinceCount.ToString();
+            label15.Text = cityCount.ToString();
+            label16.Text = districtCount.ToString();
+            label17.Text = streetCount.ToString();
+            label18.Text = communityCount.ToString();
+
             var dataProvinces = repository.GetProvinces();
             BindingSource bs = new BindingSource
             {
